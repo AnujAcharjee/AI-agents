@@ -1,0 +1,84 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Ignore venv directories at any depth
+**/venv/
+**/.venv/
+**/env/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Python build / packaging
+build/
+dist/
+*.egg-info/
+**/*.egg-info/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checkers
+.mypy_cache/
+.pyre/
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Additional reproducible Python artifacts
+ENV/
+.ruff_cache/
+.coverage.*
+*.egg
+pip-wheel-metadata/
+
+# Private credentials and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local application data (regenerate instead of committing)
+*.db
+*.sqlite
+*.sqlite3
+chroma/
+chroma_db/
+qdrant_storage/
+storage/
+data/cache/
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+Desktop.ini
+
+# Reference course materials
+ud-main/
