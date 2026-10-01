@@ -11,7 +11,6 @@ click==8.5.0
 croniter==6.2.4
 cryptography==50.0.1
 distro==1.9.0
-dotenv==0.9.9
 filetype==1.2.0
 fonttools==4.65.0
 frozenlist==1.8.0

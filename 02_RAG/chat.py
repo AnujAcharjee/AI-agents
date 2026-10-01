@@ -1,30 +1,31 @@
-import os
-from dotenv import load_dotenv
-from google import genai
+import sys
+from pathlib import Path
+
+if sys.stdout.encoding != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+# Add project root to sys.path so utils can be imported
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from google.genai import types
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
 
+from utils.clients import gemini_client, openai_embedding_client
 
-load_dotenv()
-
-gemini_client = genai.Client()
-
-# Vector Embeddings
-embedding_model = GoogleGenerativeAIEmbeddings(
-    model="models/text-embedding-004", task_type="retrieval_document"
-)
-
+# Connect to Qdrant collection using the same embedding model
 vector_db = QdrantVectorStore.from_existing_collection(
     url="http://localhost:6333",
     collection_name="learning_rag",
-    embedding=embedding_model,
+    embedding=openai_embedding_client,
 )
 
 # Take user input
 user_query = input("Ask something: ")
 
-# Retrieve top 4 relevant chunks
+# Retrieve top 5 relevant chunks
 search_results = vector_db.similarity_search(query=user_query, k=5)
 
 # Format context safely (PyPDFLoader uses 'page', not 'page_label')
@@ -41,25 +42,27 @@ for result in search_results:
 context = "\n\n---\n\n".join(context_blocks)
 
 SYSTEM_PROMPT = f"""
-  You are a helpful AI Assistant who answers user queries based solely on the available context retrieved from a PDF file.
-  Always provide clear answers and cite the exact page number so the user can open the PDF and read further.
+You are a helpful AI Assistant who answers user queries based solely on the available context retrieved from a PDF file.
+Always provide clear answers and cite the exact page number so the user can open the PDF and read further.
 
-  Context:
-  {context}
+Context:
+{context}
 """
 
-
-# Stream response using official Google GenAI SDK
-response_stream = gemini_client.interactions.create(
-    model="gemini-3.7-flash",
-    input=[
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": user_query},
-    ],
-    stream=True,
+# Stream response using official Google GenAI Chat SDK
+chat = gemini_client.chats.create(
+    model="gemini-3.5-flash-lite",
+    config=types.GenerateContentConfig(
+        system_instruction=SYSTEM_PROMPT,
+    ),
 )
+
+response_stream = chat.send_message_stream(user_query)
 
 print("\n🤖: ", end="", flush=True)
 
-for event in response_stream:
-    print(event)
+for chunk in response_stream:
+    if chunk.text:
+        print(chunk.text, end="", flush=True)
+print()
+

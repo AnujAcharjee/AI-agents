@@ -1,4 +1,4 @@
-# RAG System
+# RAG System / Pipeline
 
 ## Problem
 
