@@ -7,13 +7,13 @@ if sys.stdout.encoding != "utf-8":
     except Exception:
         pass
 
-# Add project root to sys.path so utils can be imported
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+# Add project directory to sys.path so client can be imported
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from google.genai import types
 from langchain_qdrant import QdrantVectorStore
 
-from utils.clients import gemini_client, openai_embedding_client
+from client.clients import gemini_client, openai_embedding_client
 
 # Connect to Qdrant collection using the same embedding model
 vector_db = QdrantVectorStore.from_existing_collection(
