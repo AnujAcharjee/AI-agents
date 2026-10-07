@@ -10,6 +10,8 @@ from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+from langgraph.checkpoint.mongodb import MongoDBSaver
+
 # Load environment variables
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 load_dotenv()
@@ -72,6 +74,8 @@ print("=" * 60)
 print(f"User Prompt: {input_message}")
 
 updated_state = graph.invoke(State({"messages": [input_message]}))
+
+
 
 # Pretty Print Final Results
 print("\n" + "=" * 60)

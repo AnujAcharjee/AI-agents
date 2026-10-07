@@ -31,6 +31,13 @@ In this high-dimensional vector space:
 
 ---
 
+> [!NOTE]
+> Vector search is a form of semantic search, i.e., it searches based on the meaning of the text rather than requiring an exact keyword match.
+>
+> Traditional keyword search, such as Elasticsearch's BM25-based search, primarily matches and ranks documents based on the words/terms they contain.
+
+---
+
 ## 2. How Embeddings Work with Vector Databases
 
 A **Vector Database** (e.g., Chroma, Qdrant, Pinecone, Milvus, pgvector) is specialized software designed to store millions of high-dimensional vectors and retrieve the closest matches in milliseconds.
