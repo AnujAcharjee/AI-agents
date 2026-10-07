@@ -7,9 +7,14 @@ if sys.stdout.encoding != "utf-8":
     except Exception:
         pass
 
-# Add project directory to sys.path so client can be imported
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+# Add project directory and workspace root to sys.path
+current_dir = Path(__file__).resolve().parent
+workspace_root = current_dir.parent
+for p in (workspace_root, current_dir):
+    if str(p) not in sys.path:
+        sys.path.insert(0, str(p))
 
+from const import GEMINI_3_5_FLASH_LITE
 from google.genai import types
 from langchain_qdrant import QdrantVectorStore
 
@@ -51,7 +56,7 @@ Context:
 
 # Stream response using official Google GenAI Chat SDK
 chat = gemini_client.chats.create(
-    model="gemini-3.5-flash-lite",
+    model=GEMINI_3_5_FLASH_LITE,
     config=types.GenerateContentConfig(
         system_instruction=SYSTEM_PROMPT,
     ),

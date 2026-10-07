@@ -1,7 +1,16 @@
+import sys
+from pathlib import Path
 from dotenv import load_dotenv
 import os
 from importlib import import_module
 import json
+
+# Add workspace root to sys.path so const can be imported
+workspace_root = Path(__file__).resolve().parent.parent
+if str(workspace_root) not in sys.path:
+    sys.path.insert(0, str(workspace_root))
+
+from const import GEMINI_3_6_FLASH
 
 # from google import genai
 from openai import OpenAI
@@ -44,7 +53,7 @@ message_history.append({"role": "user", "content": user_query})
 
 for _ in range(3):
     response = client.chat.completions.create(
-        model="gemini-3.6-flash",
+        model=GEMINI_3_6_FLASH,
         response_format={"type": "json_object"},
         messages=message_history,
     )

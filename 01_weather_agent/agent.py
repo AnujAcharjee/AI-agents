@@ -1,3 +1,5 @@
+import sys
+from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 import os
@@ -5,6 +7,12 @@ import json
 import requests
 from pydantic import BaseModel, Field
 from typing import Optional
+
+workspace_root = Path(__file__).resolve().parent.parent
+if str(workspace_root) not in sys.path:
+    sys.path.insert(0, str(workspace_root))
+
+from const import GEMINI_3_7_FLASH
 
 load_dotenv()
 
@@ -178,7 +186,7 @@ def main():
         for _ in range(10):
 
             response = client.chat.completions.parse(
-                model="gemini-3.7-flash",
+                model=GEMINI_3_7_FLASH,
                 response_format=MyOutputFormat,
                 messages=message_history,
             )

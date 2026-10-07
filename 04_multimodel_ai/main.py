@@ -4,7 +4,16 @@ import base64
 import urllib.request
 from pathlib import Path
 from dotenv import load_dotenv
+
+import mimetypes
+
+# Add workspace root to sys.path so const can be imported from anywhere
+workspace_root = Path(__file__).resolve().parents[1]
+if str(workspace_root) not in sys.path:
+    sys.path.insert(0, str(workspace_root))
+
 from openai import OpenAI
+from const import GEMINI_FLASH_LITE
 
 # Set standard output encoding to UTF-8 on Windows
 if sys.platform == "win32":
@@ -14,22 +23,16 @@ if sys.platform == "win32":
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 load_dotenv()
 
-api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+api_key = os.getenv("GOOGLE_API_KEY")
 
 if not api_key:
-    raise ValueError("GEMINI_API_KEY or GOOGLE_API_KEY not found in environment variables.")
+    raise ValueError("GOOGLE_API_KEY not found in environment variables.")
 
 # OpenAI client configured with Google Gemini OpenAI-compatible endpoint
 client = OpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
     api_key=api_key,
 )
-
-# Gemini multimodal model
-MODEL_NAME = "gemini-flash-lite-latest"
-
-
-import mimetypes
 
 
 def image_to_data_url(source) -> str:
@@ -74,7 +77,7 @@ def main():
         image_data_uri = image_to_data_url(img_path)
 
         response = client.chat.completions.create(
-            model=MODEL_NAME,
+            model=GEMINI_FLASH_LITE,
             messages=[
                 {
                     "role": "user",

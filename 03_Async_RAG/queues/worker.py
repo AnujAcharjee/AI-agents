@@ -16,6 +16,7 @@ for p in (workspace_root, app_dir):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
+from const import GEMINI_3_5_FLASH_LITE
 from google.genai import types
 from langchain_qdrant import QdrantVectorStore
 
@@ -52,7 +53,7 @@ def process_query(user_query: str):
 
     # Stream response using official Google GenAI Chat SDK
     chat = gemini_client.chats.create(
-        model="gemini-3.5-flash-lite",
+        model=GEMINI_3_5_FLASH_LITE,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_PROMPT,
         ),
