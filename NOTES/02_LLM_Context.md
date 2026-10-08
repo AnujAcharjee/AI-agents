@@ -40,3 +40,5 @@ RAG is a technique where an LLM retrieves relevant external data and uses it to 
 - Vector database → stores searchable embeddings
 - Retriever → finds relevant chunks
 - LLM → generates final answer
+
+
