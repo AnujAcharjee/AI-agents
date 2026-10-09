@@ -66,3 +66,9 @@ Persists across separate sessions and time. It is stored externally (databases, 
 2. **Store & Consolidate:** Insights are embedded and saved into a database (updating or merging with existing memories).
 3. **Retrieve:** On a new user query, the agent searches long-term memory for relevant context.
 4. **Inject:** Retrieved memories are injected into the short-term prompt context before generation.
+
+---
+
+## 4. Graph Memory
+
+Graph memory models an agent's knowledge as a network of nodes (entities, people, concepts) and directed edges (relationships, dependencies, actions). Unlike pure vector databases that rely solely on textual similarity, graph memory explicitly maps interconnected relationships (e.g., *"User works at Company"*, *"Company uses Tech Stack"*) and allows multi-hop reasoning. In AI, it is primarily used in **GraphRAG**, complex multi-entity tracking, fraud detection, recommendation engines, and long-term personalization where relationship context matters as much as text meaning. In our stack, **Neo4j** serves as the graph database engine to store, link, and traverse these entity relationships.

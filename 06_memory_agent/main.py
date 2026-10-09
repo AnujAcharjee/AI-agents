@@ -1,9 +1,17 @@
 import os
 import sys
 from pathlib import Path
+import warnings
 from dotenv import load_dotenv
 from openai import OpenAI
 from mem0 import Memory
+
+# Ensure UTF-8 output on Windows console
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+
+os.environ["MEM0_TELEMETRY"] = "False"
+warnings.filterwarnings("ignore")
 
 # Add workspace root to sys.path so const can be imported
 workspace_root = Path(__file__).resolve().parents[1]
@@ -27,6 +35,7 @@ load_dotenv()
 # Embedder: OpenRouter (Nemotron, output dimension: 2048)
 # LLM: Google Gemini
 # Vector Store: Qdrant
+# Graph Store: Neo4j
 # =====================================================================
 config = {
     "version": "v1.1",
@@ -56,6 +65,15 @@ config = {
             "embedding_model_dims": 2048,
             # Tip: If you don't have a Qdrant server running, you can use local disk mode:
             # "path": str(Path(__file__).resolve().parent / "local_qdrant"),
+        },
+    },
+    "graph_store": {
+        "provider": "neo4j",
+        "config": {
+            "url": os.getenv("NEO4J_URI"),
+            "username": os.getenv("NEO4J_USERNAME", "neo4j"),
+            "password": os.getenv("NEO4J_PASSWORD"),
+            "database": os.getenv("NEO4J_DATABASE", "neo4j"),
         },
     },
 }
