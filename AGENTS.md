@@ -10,12 +10,6 @@
 * **Do not read or inspect `.env`** under any circumstances.
 * Use **`.env.example`** to understand the required environment variables and configuration.
 
-## Models
-
-* All models used by the project are defined in **`const.py`**.
-* Always refer to `const.py` when you need to determine which models the project uses.
-* Do not hardcode or introduce alternative model names unless explicitly requested.
-
 ## AI Stack
 
 This project uses:
@@ -24,4 +18,3 @@ This project uses:
 * **Gemini** as the LLM.
 * **OpenRouter** for the embedding model.
 
-When modifying AI-related code, follow the existing model configuration in `const.py` rather than introducing new model configurations.
