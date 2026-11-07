@@ -28,6 +28,23 @@
 
 ---
 
+## Traditional LLM vs. Chat Model
+
+| Feature | Traditional LLM (Completion) | Chat Model |
+| :--- | :--- | :--- |
+| **Interface** | Raw String In $\rightarrow$ Raw String Out | Structured Messages In $\rightarrow$ Message Out |
+| **Input Format** | `"Once upon a time..."` | `[SystemMessage, HumanMessage, AIMessage]` |
+| **Behavior** | Pure next-token text completion | Conversational instruction-following & dialogue |
+| **Tool Calling** | Fragile text formatting & string parsing | Native tool/function-calling schemas |
+
+### Why Modern Trend is Towards Chat Models (In Short)
+1. **Clear Role Separation & Safety:** Distinct `system`, `user`, and `assistant` roles help isolate instructions from untrusted inputs to reduce prompt injection.
+2. **Native Multi-Turn Memory:** Preserves multi-turn chat history cleanly without manual string delimiters (e.g., no manual `User: ... \nAssistant: ...` hacks).
+3. **Agent & Tool Calling Native:** Built-in support for tool schemas, structured outputs (JSON), and multi-agent handoffs.
+4. **Better Steerability:** Heavily aligned (SFT + RLHF/DPO) to follow instructions and act as an interactive agent rather than merely predicting the next word.
+
+---
+
 # Multimodal AI (Multi-modal Models)
 
 - Multimodal AI refers to machine learning models that can process, understand, and generate information across **multiple types of data modalities** (e.g., text, images, audio, video, code).
